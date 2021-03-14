@@ -32,6 +32,39 @@ function playRound(playerSelection, computerSelection) {
   )}.`;
 }
 
-const playerSelection = "rock";
-const computerSelection = computerPlay();
-console.log(playRound(playerSelection, computerSelection));
+function game(playFunction) {
+  let playerScore = 0;
+  let computerScore = 0;
+  let validStrings = ["rock", "paper", "scissors"];
+  let invalidInput = false;
+  for (let i = 0; i < 5; i++) {
+    if (invalidInput) i--;
+    const computerSelection = computerPlay();
+    const playerSelection = prompt("Rock, paper, scissors?").toLowerCase();
+    if (validStrings.includes(playerSelection)) {
+      const result = playFunction(playerSelection, computerSelection);
+
+      if (result.includes("You win!")) {
+        console.log(result);
+        playerScore++;
+      } else if (result.includes("You lose!")) {
+        console.log(result);
+        computerScore++;
+      } else if (result.includes("draw!")) {
+        console.log(result);
+      }
+      console.log("Computer:", computerScore);
+      console.log("Player", playerScore);
+      invalidInput = false;
+    } else {
+      console.log("Invalid pick.");
+      invalidInput = true;
+    }
+  }
+  if (playerScore > computerScore) return console.log("The player wins!");
+  else if (computerScore > playerScore)
+    return console.log("The computer wins!");
+  return console.log("It's a draw!");
+}
+
+game(playRound);
